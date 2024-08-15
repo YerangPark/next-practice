@@ -1,0 +1,7 @@
+{
+  "editor.codeActionsOnSave": {
+	  "source.fixAll": true,
+  },
+  "editor.formatOnSave":true,
+  // 출처: https://ek12mv2.tistory.com/223 [Not only Slow but also Steady:티스토리]
+}
