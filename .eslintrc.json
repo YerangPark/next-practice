@@ -34,6 +34,9 @@
       ] }
     ],
     "react/require-default-props": "off",
-    "max-len": ["error", { "code": 120 }] // 최대 줄 길이를 120자로 설정
+    "max-len": ["error", { "code": 120 }], // 최대 줄 길이를 120자로 설정
+    "jsx-a11y/label-has-associated-control": [ 2, { // 라벨이 입력폼과 연결이 되어있는지에 대한 옵션. 심각도 2(에러)로 설정.
+      "some": [ "nesting", "id" ] // 감싸거나 아이디를 연결해주면 되도록 설정.
+    }],
   }
 }

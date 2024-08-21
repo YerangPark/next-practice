@@ -11,8 +11,10 @@ interface TextInputWithLabelProps {
 const TextInputWithLabel: React.FC<TextInputWithLabelProps> = ({ label, value, onChange, placeholder }) => {
   return (
     <div>
-      <label>{label}</label>
-      <Input value={value} onChange={onChange} placeholder={placeholder} />
+      <label>
+        {label}
+        <Input value={value} onChange={onChange} placeholder={placeholder} />
+      </label>
     </div>
   )
 }
