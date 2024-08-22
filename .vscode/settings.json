@@ -1,6 +1,6 @@
 {
   "editor.codeActionsOnSave": {
-	  "source.fixAll": true,
+    "source.fixAll.eslint": true // NOTE 그냥 True로 적게되면 어떤 수정 도구가 적용될지 명확하지 않음.
   },
   "editor.formatOnSave":true,
   // 출처: https://ek12mv2.tistory.com/223 [Not only Slow but also Steady:티스토리]
