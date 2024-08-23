@@ -5,7 +5,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy package.json and yarn.lock files.
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
 # Install dependencies.
 RUN yarn install
@@ -20,4 +20,4 @@ RUN yarn build
 EXPOSE 3000
 
 # Start the application.
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
