@@ -1,5 +1,5 @@
-# Node.js의 경량 버전을 베이스 이미지로 사용합니다.
-FROM node:20-alpine
+# 운용할 배포 서버(랴즈)가 aarch64 플랫폼, Node.js의 경량 버전을 베이스 이미지로 사용합니다.
+FROM --platform=linux/arm64 node:20-alpine
 
 # 앱 디렉토리를 생성하고, 작업 디렉토리로 설정합니다.
 WORKDIR /app
@@ -18,9 +18,6 @@ RUN npm run build
 
 # 애플리케이션 포트를 노출합니다.
 EXPOSE 3000
-
-# 운용할 배포 서버(랴즈)가 aarch64 플랫폼이
-FROM --platform=linux/arm64 ubuntu:latest
 
 # 앱을 시작하는 명령어입니다.
 CMD ["npm", "start"]
