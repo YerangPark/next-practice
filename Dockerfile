@@ -1,5 +1,5 @@
 # 운용할 배포 서버(랴즈)가 aarch64 플랫폼, Node.js의 경량 버전을 베이스 이미지로 사용합니다.
-FROM --platform=linux/arm64 node:20-alpine
+FROM node:20-alpine
 
 # 앱 디렉토리를 생성하고, 작업 디렉토리로 설정합니다.
 WORKDIR /app
