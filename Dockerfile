@@ -19,5 +19,8 @@ RUN npm run build
 # 애플리케이션 포트를 노출합니다.
 EXPOSE 3000
 
+# 운용할 배포 서버(랴즈)가 aarch64 플랫폼이
+FROM --platform=linux/arm64 base-image:tag
+
 # 앱을 시작하는 명령어입니다.
 CMD ["npm", "start"]
