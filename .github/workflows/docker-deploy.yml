@@ -59,8 +59,8 @@ jobs:
           script: |
             echo "SSH 연결 테스트 완료."
             docker --version
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+            echo "${{ secrets.DOCKERHUB_ACCESS_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
             docker stop frontend-folio || true
             docker rm frontend-folio || true
-            docker run -d -p 80:3000 --name frontend​⬤
+            docker run -d -p 80:3000 --name frontend-folio ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
