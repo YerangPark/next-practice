@@ -1,23 +1,23 @@
-# Use an official Node.js image.
+# Node.js의 경량 버전을 베이스 이미지로 사용합니다.
 FROM node:20-alpine
 
-# Set the working directory inside the container.
+# 앱 디렉토리를 생성하고, 작업 디렉토리로 설정합니다.
 WORKDIR /app
 
-# Copy package.json and yarn.lock files.
+# package.json과 package-lock.json을 복사합니다.
 COPY package.json package-lock.json ./
 
-# Install dependencies.
-RUN yarn install
+# 의존성을 설치합니다. --legacy-peer-deps 옵션은 필요시 사용할 수 있습니다.
+RUN npm install --legacy-peer-deps
 
-# Copy the rest of the application code.
+# 소스 코드를 모두 복사합니다.
 COPY . .
 
-# Build the Next.js application.
-RUN yarn build
+# 빌드를 수행합니다.
+RUN npm run build
 
-# Expose the port the app runs on.
+# 애플리케이션 포트를 노출합니다.
 EXPOSE 3000
 
-# Start the application.
+# 앱을 시작하는 명령어입니다.
 CMD ["npm", "start"]
