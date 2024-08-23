@@ -47,7 +47,6 @@ jobs:
     needs: build
 
     steps:
-      #ANCHOR - SSH 연결 테스트
       - name: SSH to Deploy Server
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -58,15 +57,7 @@ jobs:
           script: |
             echo "SSH 연결 테스트 완료."
             docker --version
-
-      - name: SSH to Deploy Server
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
             docker stop frontend-folio || true
             docker rm frontend-folio || true
