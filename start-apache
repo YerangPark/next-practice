@@ -1,0 +1,3 @@
+#!/bin/sh
+# Apache 프로세스를 백그라운드에서 실행합니다.
+httpd -D FOREGROUND
