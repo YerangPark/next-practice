@@ -66,4 +66,4 @@ jobs:
             docker rm folio-frontend || true
 
             pm2 delete folio-frontend || true
-            pm2 start docker --name folio-frontend -- run -d -p 3000:3000 --name folio-frontend ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
+            pm2 start docker --name frontend-container -- run -d -p 3000:3000 --name frontend-container ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
