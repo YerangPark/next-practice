@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # 빌드된 정적 파일을 Apache의 서브 디렉토리로 복사합니다.
-RUN cp -r build/* /var/www/html/
+RUN cp -r .next/* /var/www/html/
 
 # Apache를 시작할 때 사용할 스크립트를 설정합니다.
 COPY start-apache /usr/local/bin/start-apache
