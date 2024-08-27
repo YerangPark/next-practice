@@ -41,7 +41,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
           platforms: linux/amd64,linux/arm64
 
   deploy:
@@ -60,7 +60,7 @@ jobs:
             echo "SSH 연결 테스트 완료."
             docker --version
             echo "${{ secrets.DOCKERHUB_ACCESS_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
-            docker stop frontend-folio || true
-            docker rm frontend-folio || true
-            docker run -d -p 3000:3000 --name frontend-folio ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
+            docker stop folio-frontend || true
+            docker rm folio-frontend || true
+            docker run -d -p 3000:3000 --name folio-frontend ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
