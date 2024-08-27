@@ -63,4 +63,4 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
             docker stop frontend-folio || true
             docker rm frontend-folio || true
-            docker run -d -p 80:80 --name frontend-folio ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
+            docker run -d -p 3000:3000 --name frontend-folio ${{ secrets.DOCKERHUB_USERNAME }}/frontend-folio:latest
