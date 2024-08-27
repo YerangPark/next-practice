@@ -62,8 +62,8 @@ jobs:
             echo "${{ secrets.DOCKERHUB_ACCESS_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
 
-            docker stop folio-frontend || true
-            docker rm folio-frontend || true
+            docker stop frontend-container || true
+            docker rm frontend-container || true
 
-            pm2 delete folio-frontend || true
+            pm2 delete frontend-container || true
             pm2 start docker --name frontend-container -- run -d -p 3000:3000 --name frontend-container ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
