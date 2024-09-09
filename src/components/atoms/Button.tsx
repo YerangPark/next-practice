@@ -1,15 +1,18 @@
 import React from 'react'
+import { Button as ChakraButton } from '@chakra-ui/react'
+import { ButtonProps } from '@/types/style'
 
-interface ButtonProps {
-  label: string
-  onClick: () => void
-}
-
-const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ label, onClick, disabled = false, bg, color, _hover, ...props}) => {
   return (
-    <button type="button" onClick={onClick}>
+    <ChakraButton
+    onClick={onClick}
+    isDisabled={disabled}
+    bg={bg}
+    color={color}
+    _hover={_hover}
+    {...props}>
       {label}
-    </button>
+    </ChakraButton>
   )
 }
 

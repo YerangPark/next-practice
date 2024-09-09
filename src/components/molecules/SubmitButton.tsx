@@ -6,7 +6,16 @@ interface SubmitButtonProps {
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({ onSubmit }) => {
-  return <Button label="Submit" onClick={onSubmit} />
+  return (
+    <Button
+      label="Submit"
+      onClick={onSubmit}
+      bg="brand.primary1"
+      color="white"
+      _hover={{ bg: 'brand.primary2' }}
+      disabled={false}
+    />
+  )
 }
 
 export default SubmitButton

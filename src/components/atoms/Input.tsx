@@ -1,13 +1,13 @@
 import React from 'react'
+import { Input as ChakraInput } from '@chakra-ui/react'
+import { InputProps } from '@/types/style'
 
-interface InputProps {
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  placeholder?: string
-}
-
-const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => {
-  return <input value={value} onChange={onChange} placeholder={placeholder} />
+const Input: React.FC<InputProps> = ({...props }) => {
+  return (
+    <ChakraInput
+      {...props}
+    />
+  )
 }
 
 export default Input
