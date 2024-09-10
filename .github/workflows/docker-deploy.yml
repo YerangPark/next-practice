@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -47,6 +48,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    timeout-minutes: 15
 
     steps:
       - name: SSH to Deploy Server
@@ -60,7 +62,8 @@ jobs:
             echo "SSH 연결 테스트 완료."
             docker --version
             echo "${{ secrets.DOCKERHUB_ACCESS_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
+
+            timeout 600 docker pull ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
 
             docker stop frontend-container || true
             docker rm frontend-container || true
