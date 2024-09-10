@@ -14,6 +14,8 @@ export interface ButtonProps {
   py?: number | string
   fontWeight?: string
   mr?: number | string
+  width?: string | number
+  mt?: number | string;
 }
 
 export interface InputProps {

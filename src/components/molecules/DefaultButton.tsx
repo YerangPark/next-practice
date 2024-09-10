@@ -6,9 +6,10 @@ interface DefaultButtonProps {
   onClick: () => void
   theme? : string
   mr?: number | string;
+  width?: number | string;
 }
 
-const DefaultButton: React.FC<DefaultButtonProps> = ({ label, onClick, theme, mr }) => {
+const DefaultButton: React.FC<DefaultButtonProps> = ({ label, onClick, theme, mr, width }) => {
   let themeOption = {
     color: "white",
     bg: "brand.primary1",
@@ -31,6 +32,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({ label, onClick, theme, mr
         _hover={themeOption._hover}
         disabled={false}
         mr={mr}
+        width={width}
       />
     </div>
   );

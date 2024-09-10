@@ -7,7 +7,7 @@ import Logo from '@/components/atoms/Logo'
 import NavMenu from '@/components/molecules/NavMenu'
 import DefaultButton from '@/components/molecules/DefaultButton'
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ openSignupModal: () => void, openLoginModal: () => void }> = ({ openSignupModal, openLoginModal }) => {
   return (
     <Box bg="white" px={4}>
       <Flex alignItems="center" py={4}>
@@ -15,13 +15,13 @@ const Navbar: React.FC = () => {
         <Spacer />
         <DefaultButton
           label="로그인"
-          onClick={() => console.log('로그인 클릭')}
+          onClick={openLoginModal}
           theme="gray"
           mr={5}
         />
         <DefaultButton
           label="회원가입"
-          onClick={() => console.log('회원가입 클릭')}
+          onClick={openSignupModal}
         />
       </Flex>
     </Box>

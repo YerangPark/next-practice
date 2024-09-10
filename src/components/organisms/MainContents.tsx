@@ -5,7 +5,7 @@ import { Heading } from '@/components/atoms/Text'
 import { Box, Text } from '@chakra-ui/react'
 import RoundButton from '../molecules/RoundButton'
 
-const MainContents: React.FC = () => {
+const MainContents: React.FC<{ openSignupModal: () => void }> = ({ openSignupModal }) => {
   const sections = useRef<(HTMLDivElement | null)[]>([]);  // null을 허용하는 배열
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const MainContents: React.FC = () => {
           py={8}
           fontWeight="bold"
           fontSize="3xl"
-          onClick={() => console.log('Start!')}
+          onClick={openSignupModal}
         />
       </Box>
     </Box>
