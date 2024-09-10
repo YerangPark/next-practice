@@ -86,7 +86,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
       return;
     }
     try {
-      const response = await fetch("http://localhost:3001/api/user/sign", {
+      const response = await fetch("http://localhost:8080/api/user/sign", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
