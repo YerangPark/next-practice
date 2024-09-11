@@ -8,7 +8,7 @@ interface SubmitButtonProps {
 const SubmitButton: React.FC<SubmitButtonProps> = ({ onSubmit }) => {
   return (
     <Button
-      label="Submit"
+      children="submit"
       onClick={onSubmit}
       bg="brand.primary1"
       color="white"

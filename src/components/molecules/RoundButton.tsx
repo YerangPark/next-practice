@@ -17,7 +17,7 @@ const RoundButton: React.FC<DefaultButtonProps> = ({ label, onClick, color, size
   return (
     <div>
       <Button
-        label={label}
+        children={label}
         onClick={onClick}
         color="white"
         bg={color}

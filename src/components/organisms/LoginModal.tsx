@@ -142,7 +142,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
               </Flex>
             </FormControl>
 
-            <Button color="white" bg="brand.primary1" width="100%" onClick={handleSubmit} label="로그인" />
+            <Button color="white" bg="brand.primary1" width="100%" onClick={handleSubmit} children="로그인" />
             {errorMessage && (
               <Alert
               status="error"

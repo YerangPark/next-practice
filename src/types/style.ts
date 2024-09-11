@@ -1,7 +1,7 @@
 import { ResponsiveValue, SystemStyleObject } from "@chakra-ui/react"
+import { ReactNode } from "react"
 
 export interface ButtonProps {
-  label: string
   onClick: () => void
   bg: string
   color: string
@@ -16,6 +16,7 @@ export interface ButtonProps {
   mr?: number | string
   width?: string | number
   mt?: number | string;
+  children?: ReactNode | string | undefined
 }
 
 export interface InputProps {
