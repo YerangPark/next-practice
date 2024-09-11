@@ -1,8 +1,11 @@
 # Build stage
 FROM node:20-alpine AS builder
 
+# 앱 디렉토리 생성 및 설정
+WORKDIR /app
+
 # 루트 경로에 있는 package.json과 package-lock.json 복사
-COPY package.json package-lock.json ./
+COPY ./package.json ./package-lock.json ./
 
 # 의존성 설치
 RUN npm install --legacy-peer-deps
@@ -16,7 +19,10 @@ RUN npm run build
 # Production stage (최종 실행 단계)
 FROM node:20-alpine
 
-# 루트 경로에서 필요한 파일 복사
+# 앱 디렉토리 생성 및 설정
+WORKDIR /app
+
+# 빌드된 결과물(.next)을 최종 컨테이너에 복사
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
