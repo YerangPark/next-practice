@@ -22,8 +22,8 @@ FROM node:20-alpine
 # 앱 디렉토리 생성 및 설정
 WORKDIR /app
 
-# 빌드된 결과물만 복사
-COPY --from=builder /app/dist ./dist
+# 빌드된 결과물(out)만 복사
+COPY --from=builder /app/out ./out
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/package-lock.json ./package-lock.json
 
