@@ -10,18 +10,17 @@ RUN npm install --legacy-peer-deps
 # 소스 코드 복사
 COPY . .
 
-# 빌드 수행 (빌드 결과는 루트 경로에 'out' 디렉토리에 생성)
+# 빌드 수행
 RUN npm run build
 
 # Production stage (최종 실행 단계)
 FROM node:20-alpine
 
-# 빌드된 결과물(out)을 그대로 사용 (복사 없이)
-COPY --from=builder /out /out
-
-# 필요한 경우에만 package.json과 package-lock.json을 복사
-COPY --from=builder /package.json /package.json
-COPY --from=builder /package-lock.json /package-lock.json
+# 루트 경로에서 필요한 파일 복사
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
 
 # Production 모드 의존성만 설치
 RUN npm install --only=production
