@@ -1,23 +1,37 @@
-# 운용할 배포 서버(랴즈)가 aarch64 플랫폼, Node.js의 경량 버전을 베이스 이미지로 사용합니다.
-FROM node:20-alpine
+# Build stage
+FROM node:20-alpine AS builder
 
-# 앱 디렉토리를 생성하고, 작업 디렉토리로 설정합니다.
+# 앱 디렉토리 생성 및 설정
 WORKDIR /app
 
-# package.json과 package-lock.json을 복사합니다.
+# package.json과 package-lock.json 복사
 COPY package.json package-lock.json ./
 
-# 의존성을 설치합니다. --legacy-peer-deps 옵션은 필요시 사용할 수 있습니다.
+# 의존성 설치
 RUN npm install --legacy-peer-deps
 
-# 소스 코드를 모두 복사합니다.
+# 소스 코드 복사
 COPY . .
 
-# 빌드를 수행합니다.
+# 빌드 수행
 RUN npm run build
 
-# 애플리케이션 포트를 노출합니다.
+# Production stage (최종 실행 단계)
+FROM node:20-alpine
+
+# 앱 디렉토리 생성 및 설정
+WORKDIR /app
+
+# 빌드된 결과물만 복사
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
+
+# Production 모드 의존성만 설치
+RUN npm install --only=production
+
+# 애플리케이션 포트를 노출
 EXPOSE 3000
 
-# 앱을 시작하는 명령어입니다.
+# 앱 시작 명령어
 CMD ["npm", "start"]
