@@ -65,7 +65,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
   // 폼 제출 핸들러
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/user/login", {
+      const response = await fetch("http://yrpark.duckdns.org:8080/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

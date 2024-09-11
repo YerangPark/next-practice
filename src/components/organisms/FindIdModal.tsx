@@ -52,7 +52,7 @@ const FindIdModal: React.FC<FindIdModalProps> = ({ isOpen, onClose, openLoginMod
   const handleSubmit = async () => {
     try {
       // 서버에 이메일 전송 요청
-      const response = await fetch("http://localhost:8080/api/user/find-id", {
+      const response = await fetch("http://yrpark.duckdns.org:8080/api/user/find-id", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

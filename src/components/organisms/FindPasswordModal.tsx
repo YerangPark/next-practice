@@ -61,7 +61,7 @@ const FindPasswordModal: React.FC<FindPasswordModalProps> = ({
   const handleSubmit = async () => {
     try {
       // 서버에 아이디와 이메일 전송 요청
-      const response = await fetch("http://localhost:8080/api/user/find-pw", {
+      const response = await fetch("http://yrpark.duckdns.org:8080/api/user/find-pw", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
