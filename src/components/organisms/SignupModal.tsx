@@ -91,6 +91,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({
           username: formData.username,
           name: formData.name,
@@ -125,13 +126,14 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
   // 폼 데이터를 초기화하는 함수
   const handleReset = () => {
     setFormData(initialFormData);
-    setErrorMessage(null);  // 에러 메시지 초기화
+    setErrorMessage(null);
   };
 
   // 모달을 닫을 때 폼을 초기화
   const handleClose = () => {
-    handleReset();  // 모달을 닫을 때 초기화
-    onClose();      // 모달 닫기 함수 호출
+    handleReset();
+    setIsSignupSuccess(false);
+    onClose();
   };
 
   return (
@@ -220,7 +222,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
             </ModalBody>
 
             <ModalFooter>
-              <Button color="white" bg="brand.primary1" width="100%" onClick={handleSubmit} label="회원가입" />
+              <Button color="white" bg="brand.primary1" width="100%" onClick={handleSubmit} children="회원가입" />
             </ModalFooter>
 
             <ModalFooter justifyContent="center">
@@ -249,7 +251,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
                   handleClose();
                   openLoginModal();
                 }}
-                label="로그인 하러 가기"
+                children="로그인 하러 가기"
                 mt={6}
                 />
             </Box>

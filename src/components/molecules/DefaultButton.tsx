@@ -25,7 +25,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({ label, onClick, theme, mr
   return (
     <div>
       <Button
-        label={label}
+        children={label}
         onClick={onClick}
         bg={themeOption.bg}
         color={themeOption.color}

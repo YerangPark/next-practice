@@ -2,7 +2,7 @@ import React from 'react'
 import { Button as ChakraButton } from '@chakra-ui/react'
 import { ButtonProps } from '@/types/style'
 
-const Button: React.FC<ButtonProps> = ({ label, onClick, disabled = false, bg, color, _hover, ...props}) => {
+const Button: React.FC<ButtonProps> = ({ children, onClick, disabled = false, bg, color, _hover, ...props}) => {
   return (
     <ChakraButton
     onClick={onClick}
@@ -11,7 +11,7 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, disabled = false, bg, c
     color={color}
     _hover={_hover}
     {...props}>
-      {label}
+      {children}
     </ChakraButton>
   )
 }
