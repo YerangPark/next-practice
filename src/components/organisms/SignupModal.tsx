@@ -53,6 +53,8 @@ interface SignupModalProps {
   openLoginModal: () => void;
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginModal }) => {
   // 사용자 입력 상태 관리
   const initialFormData: FormData = {
@@ -86,7 +88,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
       return;
     }
     try {
-      const response = await fetch("http://yrpark.duckdns.org:8080/api/user/sign", {
+      const response = await fetch(`${apiUrl}/api/user/sign`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

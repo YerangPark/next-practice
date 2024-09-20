@@ -24,6 +24,8 @@ interface FindIdModalProps {
   openLoginModal: () => void
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const shake = keyframes`
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
@@ -52,7 +54,7 @@ const FindIdModal: React.FC<FindIdModalProps> = ({ isOpen, onClose, openLoginMod
   const handleSubmit = async () => {
     try {
       // 서버에 이메일 전송 요청
-      const response = await fetch("http://yrpark.duckdns.org:8080/api/user/find-id", {
+      const response = await fetch(`${apiUrl}/api/user/find-id`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

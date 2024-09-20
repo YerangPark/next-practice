@@ -29,6 +29,24 @@ interface LoginModalProps {
   openFindPasswordModal: () => void
 }
 
+interface ErrorResponse {
+  success: false
+  error: {
+    code: string
+    message: string
+  }
+}
+
+interface SuccessResponse {
+  success: true
+  data: any[]
+  token: string
+}
+
+type LoginResponse = SuccessResponse | ErrorResponse;
+
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const shake = keyframes`
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
@@ -65,7 +83,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
   // 폼 제출 핸들러
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://yrpark.duckdns.org:8080/api/user/login", {
+      console.log(apiUrl);
+      const response = await fetch(`${apiUrl}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,9 +96,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
         mode: "cors",
       });
 
-      const data = await response.json()
-      if (response.ok) {
+      const data: LoginResponse = await response.json()
+      if (data.success) {
         console.log("로그인 성공 추후 대시보드 화면으로 이동")
+        localStorage.setItem('token', data.token)
         handleReset()
       } else if ((response.status === 401 && data.error.code === "INVALID_CREDENTIALS") ||
         (response.status === 401 && data.error.code === "PASSWORD_MISMATCH")) {
