@@ -130,7 +130,8 @@ const FindPasswordModal: React.FC<FindPasswordModalProps> = ({
               <Alert
                 status={isSuccess ? "success" : "error"}
                 animation={`${shake} 0.5s`}
-                key={shakeKey}>                <AlertIcon />
+                key={shakeKey}>
+                <AlertIcon />
                 <AlertTitle>{resultMessage}</AlertTitle>
               </Alert>
             )}

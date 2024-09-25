@@ -1,11 +1,11 @@
 import { ResponsiveValue, SystemStyleObject } from "@chakra-ui/react"
-import { ReactNode } from "react"
+import { CSSProperties, ReactNode } from "react"
 
 export interface ButtonProps {
   onClick: () => void
   bg: string
   color: string
-  disabled?: boolean
+  isDisabled?: boolean
   _hover?: SystemStyleObject
   borderRadius?: string | number
   size?: ResponsiveValue<string>
@@ -16,7 +16,9 @@ export interface ButtonProps {
   mr?: number | string
   width?: string | number
   mt?: number | string;
+  mb?: number | string;
   children?: ReactNode | string | undefined
+  animation?: CSSProperties['animation'];
 }
 
 export interface InputProps {

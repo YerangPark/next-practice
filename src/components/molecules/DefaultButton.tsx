@@ -30,7 +30,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({ label, onClick, theme, mr
         bg={themeOption.bg}
         color={themeOption.color}
         _hover={themeOption._hover}
-        disabled={false}
+        isDisabled={false}
         mr={mr}
         width={width}
       />

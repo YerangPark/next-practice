@@ -75,17 +75,17 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-  });
+  })
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [shakeKey, setShakeKey] = useState<number>(0);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async () => {
     try {
@@ -101,42 +101,42 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
         mode: "cors",
       });
 
-      const res: LoginResponse = await response.json();
+      const res: LoginResponse = await response.json()
       if (res.success) {
-        localStorage.setItem("token", res.data.token);
-        handleReset();
-        setIsLoggedIn(true);
+        localStorage.setItem("token", res.data.token)
+        handleReset()
+        setIsLoggedIn(true)
       } else if (
         (response.status === 401 && res.error.code === "INVALID_CREDENTIALS") ||
         (response.status === 401 && res.error.code === "PASSWORD_MISMATCH")
       ) {
-        setErrorMessage("아이디 또는 비밀번호가 틀렸습니다");
-        setShakeKey((prev) => prev + 1);
+        setErrorMessage("아이디 또는 비밀번호가 틀렸습니다")
+        setShakeKey((prev) => prev + 1)
       } else {
-        setErrorMessage("로그인에 실패했습니다.");
-        setShakeKey((prev) => prev + 1);
+        setErrorMessage("로그인에 실패했습니다.")
+        setShakeKey((prev) => prev + 1)
       }
     } catch (error) {
-      setErrorMessage("에러가 발생했습니다.");
-      setShakeKey((prev) => prev + 1);
+      setErrorMessage("에러가 발생했습니다.")
+      setShakeKey((prev) => prev + 1)
     }
-  };
+  }
 
   const handleReset = () => {
     setFormData({ username: "", password: "" });
   };
 
   const handleClose = () => {
-    handleReset();
-    setErrorMessage(null);
-    onClose();
-  };
+    handleReset()
+    setErrorMessage(null)
+    onClose()
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push("/dashboard");
+      router.push("/dashboard")
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn])
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered>
@@ -189,7 +189,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}
 
-export default LoginModal;
+export default LoginModal
