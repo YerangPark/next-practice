@@ -8,8 +8,9 @@ import DashboardContent from '../organisms/DashboardContent'
 import { useRouter } from 'next/navigation';
 import { Box } from '@chakra-ui/react'
 import DeletePortfolioModal from '../organisms/DeletePortfolioModal'
-import { ja } from 'date-fns/locale'
 import FadeNotification from '../organisms/FadeNotification'
+import { FaPlus } from 'react-icons/fa'
+import Button from '../atoms/Button'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -59,7 +60,20 @@ const DashboardPage: React.FC = () => {
       <DashboardNavBar />
       <hr/>
       <Box mx="10" mt="5">
-        <Heading content="대시보드" fontSize="4xl" color="brand.text1"/>
+        <Box display="flex" justifyContent="space-between">
+          <Heading content="대시보드" fontSize="2xl" color="brand.text1"/>
+          <Button
+            leftIcon={<FaPlus />}
+            aria-label="새로 만들기"
+            size="sm"
+            color="white"
+            bg="brand.primary1"
+            _hover={{ bg: "brand.background3", color: "brand.text3" }}
+            onClick={() => { router.push("/portfolio") }}
+          >
+            새로 만들기
+          </Button>
+        </Box>
         {
           portfolios.length > 0 ?
           (<DashboardContent data={portfolios} onHover={setSelectedPortfolio} openDeletePortfolioModal={openDeletePortfolioModal} handleExport={onNotification}/>) :

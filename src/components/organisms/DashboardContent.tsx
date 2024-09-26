@@ -7,6 +7,12 @@ import { ko } from 'date-fns/locale'
 import { FaPencilAlt, FaTrash, FaUpload } from 'react-icons/fa'
 
 const DashboardContent: React.FC<DashboardProps> = ({ data, onHover, openDeletePortfolioModal, handleExport }) => {
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).catch((error) => {
+      console.error('텍스트 복사 실패:', error);
+    });
+  };
+
   return (
     <Box display="flex" flexWrap="wrap" gap={4} mt="4">
       {data && data.map((portfolio) => (
@@ -43,7 +49,10 @@ const DashboardContent: React.FC<DashboardProps> = ({ data, onHover, openDeleteP
                 colorScheme="blue"
                 variant="solid"
                 _hover={{ bg: "blue.600" }}
-                onClick={()=>{ handleExport() }}
+                onClick={() => {
+                  handleExport();
+                  copyToClipboard("복사할 텍스트");
+                }}
               />
             </Box>
 
