@@ -37,7 +37,17 @@ const DashboardPage: React.FC = () => {
         },
         mode: "cors",
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 401) {
+          console.error("토큰이 만료되었습니다.")
+          localStorage.removeItem('token')
+          router.push("/")
+        } else if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('잘못된 응답')
+        }
+      })
       .then(data => {
         if (data && data.success) {
           setPortfolios(data.data)

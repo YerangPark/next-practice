@@ -1,6 +1,21 @@
 import React, { useState } from 'react'
-import { Box, Button, FormControl, FormLabel, Image, Input, Select, Tag, Textarea, Text, Flex, Divider } from '@chakra-ui/react'
-import PortfolioInputFooter from '../molecules/PortfolioInputFooter'
+import { Image, Box, Button, FormControl, FormLabel, Input, Tag, Textarea, Text, Flex, Divider, Wrap, WrapItem, TagLabel, TagCloseButton, HStack, InputGroup, InputRightElement, Icon, List, ListItem } from '@chakra-ui/react'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { FiPlus, FiCheck } from "react-icons/fi"
+import { FaSearch } from 'react-icons/fa'
+
+interface Skill {
+  id: number
+  name: string
+}
+
+const popularSkills: Skill[] = [
+  { id: 1, name: 'Javascript' },
+  { id: 12, name: 'React' },
+  { id: 16, name: 'Next.js' },
+  { id: 11, name: 'Spring' }
+]
 
 const PortfolioInputForm: React.FC = () => {
   const [portfolioName, setPortfolioName] = useState('')
@@ -9,13 +24,43 @@ const PortfolioInputForm: React.FC = () => {
   const [image, setImage] = useState('')
   const [githubLink, setGithubLink] = useState('')
   const [blogLink, setBlogLink] = useState('')
-  const [selectedTechStack, setSelectedTechStack] = useState<string[]>([])
-  const [techStackOptions] = useState(['React', 'Node.js', 'TypeScript'])
+  const [selectedTechStack, setSelectedTechStack] = useState<number[]>([])
+  const skills = useSelector((state: RootState) => state.skill.skills)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<Skill[]>([])
 
-  const handleTechStackSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = e.target.value
-    if (selected && !selectedTechStack.includes(selected)) {
-      setSelectedTechStack([...selectedTechStack, selected])
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value
+    setSearchQuery(query)
+
+    // 입력된 검색어가 있으면 필터링된 기술 스택을 보여주고, 없으면 검색 결과를 비움
+    if (query) {
+      const results = skills.filter(skill =>
+        skill.name.toLowerCase().includes(query.toLowerCase())
+      )
+      setSearchResults(results)
+    } else {
+      setSearchResults([])
+    }
+  }
+
+  const handleTechStackSelect = (val: string | number) => {
+    const selectedId = typeof val === 'string' ? Number(val) : val
+    if (selectedId && !selectedTechStack.includes(selectedId)) {
+      setSelectedTechStack([...selectedTechStack, selectedId])
+    }
+  }
+
+  const handleRemoveTechStack = (stackToRemove: number) => {
+    setSelectedTechStack(selectedTechStack.filter(stack => stack !== stackToRemove))
+  }
+
+  const handleSkillClick = (skillId: number) => {
+    const alreadySelected = selectedTechStack.includes(skillId)
+    if (alreadySelected) {
+      setSelectedTechStack(selectedTechStack.filter(id => id !== skillId))
+    } else {
+      setSelectedTechStack([...selectedTechStack, skillId])
     }
   }
 
@@ -23,65 +68,137 @@ const PortfolioInputForm: React.FC = () => {
     <Box px={8}>
       <Text fontSize="xl" fontWeight="bold" mt={3}>기본 설정</Text>
       <Divider my={2} />
+
       <FormControl mb={4}>
         <Flex align="center">
-          <FormLabel mb="0" width="200px">포트폴리오 이름</FormLabel>
-          <Input placeholder="포트폴리오 이름을 입력하세요" value={portfolioName} onChange={e => setPortfolioName(e.target.value)} />
+          <FormLabel mb="0" width="150px">포트폴리오 이름</FormLabel>
+          <Input placeholder="포트폴리오 이름을 입력하세요" value={portfolioName} onChange={e => setPortfolioName(e.target.value)} flex="1" />
         </Flex>
       </FormControl>
       <FormControl mb={4}>
         <Flex align="center">
-          <FormLabel mb="0" width="200px">상부 타이틀</FormLabel>
-          <Input placeholder="상부 타이틀을 입력하세요" value={title} onChange={e => setTitle(e.target.value)} />
+          <FormLabel mb="0" width="150px">상부 타이틀</FormLabel>
+          <Input placeholder="상부 타이틀을 입력하세요" value={title} onChange={e => setTitle(e.target.value)} flex="1" />
         </Flex>
       </FormControl>
       <FormControl mb={4}>
         <Flex align="center">
-          <FormLabel mb="0" width="200px">메인 소개글</FormLabel>
-          <Textarea placeholder="메인 소개글을 입력하세요" value={description} onChange={e => setDescription(e.target.value)} />
+          <FormLabel mb="0" width="150px">메인 소개글</FormLabel>
+          <Textarea placeholder="메인 소개글을 입력하세요" value={description} onChange={e => setDescription(e.target.value)} flex="1"/>
         </Flex>
       </FormControl>
       <FormControl mb={4}>
-        <FormLabel>대표 사진</FormLabel>
-        {image && <Image src={image} alt="대표 사진 미리보기" boxSize="200px" mb={4} />}
-        <Button variant="outline" onClick={() => setImage('/images/sample.jpg')}>대표 사진 추가</Button>
+        <Box display="flex" alignItems="center">
+          <FormLabel mb="0" width="150px">대표 사진</FormLabel>
+          <Box display="flex" alignItems="center">
+            {image && <Image src={image} alt="대표 사진 미리보기" boxSize="150px" mr={4} />}
+            <Button variant="outline" onClick={() => setImage('/images/notebook.jpg')}>대표 사진 추가</Button>
+          </Box>
+        </Box>
       </FormControl>
 
-      <Text fontSize="xl" fontWeight="bold" mt={10} >임베드 링크</Text>
+      <Text fontSize="xl" fontWeight="bold" mt={10}>임베드 링크</Text>
       <Divider my={2} />
       <FormControl mb={4}>
         <Flex align="center">
-          <FormLabel mb="0" width="200px">깃허브 링크</FormLabel>
-          <Input placeholder="깃허브 링크를 입력하세요" value={githubLink} onChange={e => setGithubLink(e.target.value)} />
+          <FormLabel mb="0" width="150px">깃허브 링크</FormLabel>
+          <Input placeholder="깃허브 링크를 입력하세요" value={githubLink} onChange={e => setGithubLink(e.target.value)} flex="1" />
         </Flex>
       </FormControl>
       <FormControl mb={4}>
         <Flex align="center">
-          <FormLabel mb="0" width="200px">블로그 링크</FormLabel>
-          <Input placeholder="블로그 링크를 입력하세요" value={blogLink} onChange={e => setBlogLink(e.target.value)} />
+          <FormLabel mb="0" width="150px">블로그 링크</FormLabel>
+          <Input placeholder="블로그 링크를 입력하세요" value={blogLink} onChange={e => setBlogLink(e.target.value)} flex="1" />
         </Flex>
       </FormControl>
 
       <Text fontSize="xl" fontWeight="bold" mt={10}>기술 스택</Text>
-      <Divider my={2} />
+      <Divider mt={2} mb={4} />
+
+      <HStack spacing={4} mb={4}>
+        {popularSkills.map(skill => {
+          const isSelected = selectedTechStack.includes(skill.id)
+          return (
+            <Button
+              key={skill.id}
+              variant="outline"
+              borderRadius="full"
+              borderColor={isSelected ? 'brand.primary1' : 'brand.background2'}
+              color={isSelected ? 'brand.primary1' : 'brand.background2'}
+              onClick={() => handleSkillClick(skill.id)}
+              rightIcon={isSelected ? <FiCheck /> : <FiPlus />}
+              fontWeight="normal"
+            >
+              {skill.name}
+            </Button>
+          )
+        })}
+      </HStack>
+
       <FormControl mb={4}>
-        <FormLabel>기술 스택 검색</FormLabel>
-        <Input placeholder="기술 스택을 검색하세요" />
+        <InputGroup>
+          <Input
+            placeholder="기술 스택을 검색해주세요"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+          />
+          <InputRightElement>
+            <Icon as={FaSearch} color="gray.400" /> {/* 장식용 아이콘 */}
+          </InputRightElement>
+        </InputGroup>
       </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>기술 스택 선택</FormLabel>
-        <Select placeholder="기술 스택을 선택하세요" onChange={handleTechStackSelect}>
-          {techStackOptions.map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-        </Select>
-      </FormControl>
-      <Box mt={4}>
-        <FormLabel>선택된 기술 스택</FormLabel>
-        {selectedTechStack.map(stack => (
-          <Tag key={stack} colorScheme="teal" variant="solid" mr={2}>{stack}</Tag>
-        ))}
+      <Box mb={4}>
+        {searchQuery && searchResults.length > 0 ? (
+          <List spacing={2} borderWidth="1px" borderRadius="md" p={4}>
+            {searchResults.map(skill => (
+              <ListItem
+                key={skill.id}
+                onClick={() => handleTechStackSelect(skill.id)}
+                cursor="pointer"
+              >
+                {skill.name}
+              </ListItem>
+            ))}
+          </List>
+        ) : searchQuery ? (
+          <Box textAlign="center" p={4} borderWidth="1px" borderRadius="md">
+            검색 결과가 없습니다.
+          </Box>
+        ) : null }
       </Box>
+
+      {/* 선택된 항목 */}
+      <FormControl mb={4}>
+        <FormLabel>선택된 항목</FormLabel>
+        <Box borderWidth="1px" borderRadius="md" p={4} textAlign={selectedTechStack.length === 0 ? 'center' : 'left'}>
+          <Wrap>
+            {selectedTechStack.length > 0 ? (
+              selectedTechStack.map(stackId => {
+                const skill = skills.find(skill => skill.id === stackId)
+                return (
+                  <WrapItem key={stackId} mr={2}>
+                    <Tag
+                      size="lg"
+                      borderRadius="full"
+                      variant="solid"
+                      color="brand.text1"
+                      bg="brand.primary2"
+                      py={3}
+                      px={5}
+                      fontWeight="normal"
+                    >
+                      <TagLabel>{skill?.name}</TagLabel>
+                      <TagCloseButton onClick={() => handleRemoveTechStack(stackId)} color="brand.primary1"/>
+                    </Tag>
+                  </WrapItem>
+                )
+              })
+            ) : (
+              <Text color="gray.500">선택된 항목이 없습니다.</Text>
+            )}
+          </Wrap>
+        </Box>
+      </FormControl>
     </Box>
   )
 }

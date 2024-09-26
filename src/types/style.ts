@@ -1,5 +1,5 @@
 import { ResponsiveValue, SystemStyleObject } from "@chakra-ui/react"
-import { CSSProperties, ReactNode } from "react"
+import { CSSProperties, ReactElement, ReactNode } from "react"
 
 export interface ButtonProps {
   onClick: () => void
@@ -19,6 +19,7 @@ export interface ButtonProps {
   mb?: number | string;
   children?: ReactNode | string | undefined
   animation?: CSSProperties['animation'];
+  leftIcon?: ReactElement
 }
 
 export interface InputProps {
