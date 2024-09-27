@@ -11,6 +11,10 @@ const UserButtonWithMenu: React.FC = () => {
     await router.push('/')
   }
 
+  const handleAccount = async () => {
+    await router.push('/account')
+  }
+
   return (
     <Menu>
       <MenuButton as={Button} bg="white" border="1px solid" borderColor="gray.200">
@@ -18,7 +22,7 @@ const UserButtonWithMenu: React.FC = () => {
       </MenuButton>
       <MenuList>
         <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
-        <MenuItem>개인정보 수정</MenuItem>
+        <MenuItem onClick={handleAccount}>개인정보 수정</MenuItem>
       </MenuList>
     </Menu>
   )
