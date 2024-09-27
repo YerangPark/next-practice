@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { FiPlus, FiCheck } from "react-icons/fi"
 import { FaSearch } from 'react-icons/fa'
+import InformationBox from '../molecules/InformationBox'
 
 interface Skill {
   id: number
@@ -68,6 +69,9 @@ const PortfolioInputForm: React.FC = () => {
     <Box px={8}>
       <Text fontSize="xl" fontWeight="bold" mt={3}>기본 설정</Text>
       <Divider my={2} />
+      <InformationBox>
+        · 필수 입력사항입니다.
+      </InformationBox>
 
       <FormControl mb={4}>
         <Flex align="center">
@@ -97,8 +101,12 @@ const PortfolioInputForm: React.FC = () => {
         </Box>
       </FormControl>
 
-      <Text fontSize="xl" fontWeight="bold" mt={10}>임베드 링크</Text>
+      <Text fontSize="xl" fontWeight="bold" mt={20}>임베드 링크</Text>
       <Divider my={2} />
+      <InformationBox>
+        · 선택 입력사항입니다.
+      </InformationBox>
+
       <FormControl mb={4}>
         <Flex align="center">
           <FormLabel mb="0" width="150px">깃허브 링크</FormLabel>
@@ -112,8 +120,11 @@ const PortfolioInputForm: React.FC = () => {
         </Flex>
       </FormControl>
 
-      <Text fontSize="xl" fontWeight="bold" mt={10}>기술 스택</Text>
+      <Text fontSize="xl" fontWeight="bold" mt={20}>기술 스택</Text>
       <Divider mt={2} mb={4} />
+      <InformationBox>
+        · 이용자가 자주 사용하는 기술 스택입니다. 자신의 직무와 관련된 스킬을 추가해보세요.
+      </InformationBox>
 
       <HStack spacing={4} mb={4}>
         {popularSkills.map(skill => {
