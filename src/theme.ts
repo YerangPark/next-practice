@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react'
 
 const theme = extendTheme({
   colors: {
@@ -21,9 +21,9 @@ const theme = extendTheme({
       // 보조 색상
       success: '#28A745', // 성공
       warning: '#FFC107', // 경고 및 하이라이트
-      danger: '#DC3545',  // 오류 및 중요한 알림
+      danger: '#DC3545', // 오류 및 중요한 알림
     },
   },
-});
+})
 
-export default theme;
+export default theme

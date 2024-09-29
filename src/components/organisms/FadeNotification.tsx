@@ -1,8 +1,8 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import { Box, Text } from '@chakra-ui/react'
 import { motion, AnimatePresence } from 'framer-motion'
-
 
 interface FadeNotificationProps {
   message: string
@@ -16,7 +16,7 @@ const FadeNotification: React.FC<FadeNotificationProps> = ({ message, onNotifica
   useEffect(() => {
     setShow(true)
     const timer = setTimeout(() => {
-      setShow(false);
+      setShow(false)
     }, 3000)
 
     const closeTimer = setTimeout(() => {
@@ -49,7 +49,7 @@ const FadeNotification: React.FC<FadeNotificationProps> = ({ message, onNotifica
           zIndex="1000"
           transition="all 0.1 ease-in-out"
         >
-          <Text>{ message }</Text>
+          <Text>{message}</Text>
         </Box>
       )}
     </AnimatePresence>

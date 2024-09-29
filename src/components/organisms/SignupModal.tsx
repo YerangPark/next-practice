@@ -17,10 +17,10 @@ import {
   Box,
   Icon,
   keyframes,
-} from "@chakra-ui/react";
-import Button from "../atoms/Button";
-import { useState, ChangeEvent, useEffect } from "react";
-import { FaCheckCircle } from 'react-icons/fa';
+} from '@chakra-ui/react'
+import { useState, ChangeEvent } from 'react'
+import { FaCheckCircle } from 'react-icons/fa'
+import Button from '../atoms/Button'
 
 const shake = keyframes`
   10%, 90% {
@@ -35,63 +35,89 @@ const shake = keyframes`
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
-`;
+`
 
 // 폼 데이터 타입 정의
 interface FormData {
-  username: string;
-  name: string;
-  email: string;
-  birthdate: string;
-  password: string;
-  confirmPassword: string;
+  username: string
+  name: string
+  email: string
+  birthdate: string
+  password: string
+  confirmPassword: string
 }
 
 interface SignupModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  openLoginModal: () => void;
+  isOpen: boolean
+  onClose: () => void
+  openLoginModal: () => void
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginModal }) => {
   // 사용자 입력 상태 관리
   const initialFormData: FormData = {
-    username: "",
-    name: "",
-    email: "",
-    birthdate: "",
-    password: "",
-    confirmPassword: "",
-  };
+    username: '',
+    name: '',
+    email: '',
+    birthdate: '',
+    password: '',
+    confirmPassword: '',
+  }
 
-  const [formData, setFormData] = useState<FormData>(initialFormData);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);  // 에러 메시지 상태 추가
-  const [isSignupSuccess, setIsSignupSuccess] = useState<boolean>(false); // 회원가입 성공 여부
-  const [shakeKey, setShakeKey] = useState<number>(0);
+  const [formData, setFormData] = useState<FormData>(initialFormData)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null) // 에러 메시지 상태 추가
+  const [isSignupSuccess, setIsSignupSuccess] = useState<boolean>(false) // 회원가입 성공 여부
+  const [shakeKey, setShakeKey] = useState<number>(0)
+
+  const validatePassword = (password: string) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,16}$/
+    return regex.test(password)
+  }
 
   // 입력 값 변경 시 상태 업데이트
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }))
+  }
+
+  // 폼 데이터를 초기화하는 함수
+  const handleReset = () => {
+    setFormData(initialFormData)
+    setErrorMessage(null)
+  }
+
+  // 모달을 닫을 때 폼을 초기화
+  const handleClose = () => {
+    handleReset()
+    setIsSignupSuccess(false)
+    onClose()
+  }
 
   // 폼 제출 시 처리할 로직
   const handleSubmit = async () => {
+    if (!Object.values(formData).some((value) => value === null || value === '')) {
+      setErrorMessage('입력되지 않은 항목이 있습니다.')
+      return
+    }
+    if (validatePassword(formData.password)) {
+      setErrorMessage('비밀번호는 8~16자의 영문 대/소문자, 숫자, 특수문자를 포함해야 합니다.')
+      return
+    }
     if (formData.password !== formData.confirmPassword) {
-      setErrorMessage("비밀번호가 일치하지 않습니다.");
-      setShakeKey(prev => prev + 1);
-      return;
+      setErrorMessage('비밀번호가 일치하지 않습니다.')
+      setShakeKey((prev) => prev + 1)
+      return
     }
     try {
       const response = await fetch(`${apiUrl}/api/user/sign`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
@@ -99,44 +125,30 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
           name: formData.name,
           email: formData.email,
           birthdate: formData.birthdate,
-          password: formData.password
+          password: formData.password,
         }),
-        mode: "cors",
-      });
+        mode: 'cors',
+      })
 
       const data = await response.json()
       if (response.ok) {
-        setErrorMessage(null);  // 에러 메시지 초기화
-        setIsSignupSuccess(true);
+        setErrorMessage(null) // 에러 메시지 초기화
+        setIsSignupSuccess(true)
         handleReset()
-      } else if (response.status === 409 && data.error.code === "USERNAME_TAKEN") {
-        setErrorMessage("이미 사용중인 아이디입니다.");
-        setShakeKey(prev => prev + 1);
-      } else if (response.status === 409 && data.error.code === "EMAIL_TAKEN") {
-        setErrorMessage("이미 사용중인 이메일입니다.");
-        setShakeKey(prev => prev + 1);
-      }
-      else {
-        setErrorMessage("회원 가입에 실패했습니다.");
-        setShakeKey(prev => prev + 1);
+      } else if (response.status === 409 && data.error.code === 'USERNAME_TAKEN') {
+        setErrorMessage('이미 사용중인 아이디입니다.')
+        setShakeKey((prev) => prev + 1)
+      } else if (response.status === 409 && data.error.code === 'EMAIL_TAKEN') {
+        setErrorMessage('이미 사용중인 이메일입니다.')
+        setShakeKey((prev) => prev + 1)
+      } else {
+        setErrorMessage('회원 가입에 실패했습니다.')
+        setShakeKey((prev) => prev + 1)
       }
     } catch (error) {
-      console.log("에러 발생")
+      console.log('에러 발생')
     }
   }
-
-  // 폼 데이터를 초기화하는 함수
-  const handleReset = () => {
-    setFormData(initialFormData);
-    setErrorMessage(null);
-  };
-
-  // 모달을 닫을 때 폼을 초기화
-  const handleClose = () => {
-    handleReset();
-    setIsSignupSuccess(false);
-    onClose();
-  };
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered>
@@ -149,10 +161,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
             <ModalBody>
               <VStack spacing={4}>
                 {errorMessage && (
-                  <Alert
-                    status="error"
-                    animation={`${shake} 0.5s`}
-                    key={shakeKey}>
+                  <Alert status="error" animation={`${shake} 0.5s`} key={shakeKey}>
                     <AlertIcon />
                     <AlertTitle>{errorMessage}</AlertTitle>
                   </Alert>
@@ -160,22 +169,12 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
 
                 <FormControl>
                   <FormLabel>아이디</FormLabel>
-                  <Input
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    placeholder="아이디 입력"
-                  />
+                  <Input name="username" value={formData.username} onChange={handleChange} placeholder="아이디 입력" />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel>이름</FormLabel>
-                  <Input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="이름 입력"
-                  />
+                  <Input name="name" value={formData.name} onChange={handleChange} placeholder="이름 입력" />
                 </FormControl>
 
                 <FormControl>
@@ -191,12 +190,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
 
                 <FormControl>
                   <FormLabel>생년월일</FormLabel>
-                  <Input
-                    name="birthdate"
-                    type="date"
-                    value={formData.birthdate}
-                    onChange={handleChange}
-                  />
+                  <Input name="birthdate" type="date" value={formData.birthdate} onChange={handleChange} />
                 </FormControl>
 
                 <FormControl>
@@ -224,14 +218,21 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
             </ModalBody>
 
             <ModalFooter>
-              <Button color="white" bg="brand.primary1" width="100%" onClick={handleSubmit} children="회원가입" />
+              <Button color="white" bg="brand.primary1" width="100%" onClick={handleSubmit}>
+                회원가입
+              </Button>
             </ModalFooter>
 
             <ModalFooter justifyContent="center">
-              <Text fontSize="sm" color="gray.500">
-                <a href="#" onClick={() => { handleClose(); openLoginModal(); }}>
-                  아이디가 이미 있으신가요?
-                </a>
+              <Text
+                onClick={() => {
+                  handleClose()
+                  openLoginModal()
+                }}
+                fontSize="sm"
+                color="gray.500"
+              >
+                아이디가 이미 있으신가요?
               </Text>
             </ModalFooter>
           </>
@@ -250,18 +251,19 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
                 bg="brand.primary1"
                 width="100%"
                 onClick={() => {
-                  handleClose();
-                  openLoginModal();
+                  handleClose()
+                  openLoginModal()
                 }}
-                children="로그인 하러 가기"
                 mt={6}
-                />
+              >
+                로그인 하러 가기
+              </Button>
             </Box>
           </ModalBody>
         )}
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}
 
-export default SignupModal;
+export default SignupModal

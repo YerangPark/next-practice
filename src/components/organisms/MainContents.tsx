@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useRef } from 'react'
 import Image from '@/components/atoms/Image'
 import { Heading } from '@/components/atoms/Text'
@@ -6,30 +7,30 @@ import { Box, Text } from '@chakra-ui/react'
 import RoundButton from '../molecules/RoundButton'
 
 const MainContents: React.FC<{ openSignupModal: () => void }> = ({ openSignupModal }) => {
-  const sections = useRef<(HTMLDivElement | null)[]>([]);  // null을 허용하는 배열
+  const sections = useRef<(HTMLDivElement | null)[]>([]) // null을 허용하는 배열
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('show');
+            entry.target.classList.add('show')
           }
-        });
+        })
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     )
 
     sections.current.forEach((section) => {
-      if (section) observer.observe(section);  // null 체크
+      if (section) observer.observe(section) // null 체크
     })
 
     return () => {
       sections.current.forEach((section) => {
-        if (section) observer.unobserve(section);  // null 체크
+        if (section) observer.unobserve(section) // null 체크
       })
     }
-  }, []);
+  }, [])
 
   return (
     <Box position="relative" textAlign="center" width="100%" mt={200} mb={200} flex="1">
@@ -51,11 +52,10 @@ const MainContents: React.FC<{ openSignupModal: () => void }> = ({ openSignupMod
         },
       ].map((content, index) => (
         <Box
-          key={index}
           textAlign="center"
           className="fade-in"
           ref={(el) => {
-            sections.current[index] = el;  // 값 할당 시 null 허용
+            sections.current[index] = el // 값 할당 시 null 허용
           }}
           mt={index === 0 ? 0 : 150}
         >

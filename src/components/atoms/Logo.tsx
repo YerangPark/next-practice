@@ -7,7 +7,13 @@ const Logo: React.FC = () => {
   const router = useRouter()
 
   return (
-    <Text fontSize="2xl" fontWeight="bold" onClick={()=>{router.push("/dashboard")}}>
+    <Text
+      fontSize="2xl"
+      fontWeight="bold"
+      onClick={() => {
+        router.push('/dashboard')
+      }}
+    >
       Folio
     </Text>
   )

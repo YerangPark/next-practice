@@ -1,5 +1,5 @@
-import { ResponsiveValue, SystemStyleObject } from "@chakra-ui/react"
-import { CSSProperties, ReactElement, ReactNode } from "react"
+import { ResponsiveValue, SystemStyleObject } from '@chakra-ui/react'
+import { CSSProperties, ReactElement, ReactNode } from 'react'
 
 export interface ButtonProps {
   onClick: () => void
@@ -15,10 +15,10 @@ export interface ButtonProps {
   fontWeight?: string
   mr?: number | string
   width?: string | number
-  mt?: number | string;
-  mb?: number | string;
+  mt?: number | string
+  mb?: number | string
   children?: ReactNode | string | undefined
-  animation?: CSSProperties['animation'];
+  animation?: CSSProperties['animation']
   leftIcon?: ReactElement
 }
 
@@ -40,8 +40,8 @@ export interface TextProps {
   fontSize?: string
   color?: string
   fontWeight?: string
-  mt?: number | string  // margin-top
-  mb?: number | string  // margin-bottom
+  mt?: number | string // margin-top
+  mb?: number | string // margin-bottom
 }
 
 export interface ImageProps {

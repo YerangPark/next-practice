@@ -6,37 +6,54 @@
     "project": "./tsconfig.json",
     "createDefaultProgram": true
   },
-  "env": { // 전역객체를 eslint가 인식하는 구간
-    "browser": true, // document나 window 인식되게 함
+  "env": {
+    "browser": true,
     "node": true,
     "es6": true
   },
-  "ignorePatterns": ["node_modules/"], // eslint 미적용될 폴더나 파일 명시
+  "ignorePatterns": ["node_modules/"],
   "extends": [
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
     "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended", // ts 권장
-    "plugin:prettier/recommended", // eslint의 포매팅을 prettier로 사용.
-    "prettier" // eslint-config-prettier prettier와 중복된 eslint 규칙 제거
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "rules": {
-    "react/react-in-jsx-scope": "off", // react 17부턴 import 안해도돼서 기능 끔
-    // 경고표시, 파일 확장자를 .ts나 .tsx 모두 허용함
+    "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
-    "no-useless-catch": "off", // 불필요한 catch 못쓰게 하는 기능 끔
-    "react/function-component-definition":[
+    "no-useless-catch": "off",
+    "react/function-component-definition": [
       2,
-      { "namedComponents": [
-        "arrow-function",
-        "function-declaration"
-      ] }
+      { "namedComponents": ["arrow-function", "function-declaration"] }
     ],
     "react/require-default-props": "off",
-    "max-len": ["error", { "code": 120 }], // 최대 줄 길이를 120자로 설정
-    "jsx-a11y/label-has-associated-control": [ 2, { // 라벨이 입력폼과 연결이 되어있는지에 대한 옵션. 심각도 2(에러)로 설정.
-      "some": [ "nesting", "id" ] // 감싸거나 아이디를 연결해주면 되도록 설정.
-    }],
-  }
+    "max-len": ["error", { "code": 120 }],
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "some": ["nesting", "id"]
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["state"]
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ]
 }

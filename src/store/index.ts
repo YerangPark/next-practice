@@ -6,7 +6,7 @@ const store = configureStore({
   reducer: {
     // 작명 : user.reducer -> 추후 작명이라는 이름으로 가져다 씀
     skill: skillReducer,
-  }
+  },
 })
 
 // SECTION: 타입 정의

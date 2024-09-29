@@ -1,8 +1,9 @@
 // src/components/organisms/Navbar.tsx
+
 'use client'
 
 import React from 'react'
-import { Box, Flex, Icon, Spacer } from '@chakra-ui/react'
+import { Box, Flex, Spacer } from '@chakra-ui/react'
 import Logo from '@/components/atoms/Logo'
 import UserButtonWithMenu from '../molecules/UserButtonWithMenu'
 
@@ -15,7 +16,7 @@ const DashboardNavBar: React.FC = () => {
         <UserButtonWithMenu />
       </Flex>
     </Box>
-  );
-};
+  )
+}
 
-export default DashboardNavBar;
+export default DashboardNavBar

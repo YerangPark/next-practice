@@ -17,12 +17,12 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  keyframes
-} from "@chakra-ui/react"
-import { FaUser, FaLock } from "react-icons/fa"
-import { useState, ChangeEvent, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import Button from "../atoms/Button"
+  keyframes,
+} from '@chakra-ui/react'
+import { FaUser, FaLock } from 'react-icons/fa'
+import { useState, ChangeEvent, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Button from '../atoms/Button'
 
 interface LoginModalProps {
   isOpen: boolean
@@ -41,16 +41,16 @@ interface ErrorResponse {
 }
 
 interface SuccessResponse {
-  success: true;
+  success: true
   data: {
-    token: string;
-    [key: string]: any;
-  };
+    token: string
+    [key: string]: any
+  }
 }
 
-type LoginResponse = SuccessResponse | ErrorResponse;
+type LoginResponse = SuccessResponse | ErrorResponse
 
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 const shake = keyframes`
   10%, 90% {
@@ -65,19 +65,25 @@ const shake = keyframes`
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
-`;
+`
 
-const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModal, openFindIdModal, openFindPasswordModal }) => {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const LoginModal: React.FC<LoginModalProps> = ({
+  isOpen,
+  onClose,
+  openSignupModal,
+  openFindIdModal,
+  openFindPasswordModal,
+}) => {
+  const router = useRouter()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   // 로그인 폼 데이터 상태 관리
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   })
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [shakeKey, setShakeKey] = useState<number>(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [shakeKey, setShakeKey] = useState<number>(0)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -87,44 +93,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
     }))
   }
 
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/api/user/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          password: formData.password
-        }),
-        mode: "cors",
-      });
-
-      const res: LoginResponse = await response.json()
-      if (res.success) {
-        localStorage.setItem("token", res.data.token)
-        handleReset()
-        setIsLoggedIn(true)
-      } else if (
-        (response.status === 401 && res.error.code === "INVALID_CREDENTIALS") ||
-        (response.status === 401 && res.error.code === "PASSWORD_MISMATCH")
-      ) {
-        setErrorMessage("아이디 또는 비밀번호가 틀렸습니다")
-        setShakeKey((prev) => prev + 1)
-      } else {
-        setErrorMessage("로그인에 실패했습니다.")
-        setShakeKey((prev) => prev + 1)
-      }
-    } catch (error) {
-      setErrorMessage("에러가 발생했습니다.")
-      setShakeKey((prev) => prev + 1)
-    }
-  }
-
   const handleReset = () => {
-    setFormData({ username: "", password: "" });
-  };
+    setFormData({ username: '', password: '' })
+  }
 
   const handleClose = () => {
     handleReset()
@@ -134,9 +105,44 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push("/dashboard")
+      router.push('/dashboard')
     }
   }, [isLoggedIn])
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+        mode: 'cors',
+      })
+
+      const res: LoginResponse = await response.json()
+      if (res.success) {
+        localStorage.setItem('token', res.data.token)
+        handleReset()
+        setIsLoggedIn(true)
+      } else if (
+        (response.status === 401 && res.error.code === 'INVALID_CREDENTIALS') ||
+        (response.status === 401 && res.error.code === 'PASSWORD_MISMATCH')
+      ) {
+        setErrorMessage('아이디 또는 비밀번호가 틀렸습니다')
+        setShakeKey((prev) => prev + 1)
+      } else {
+        setErrorMessage('로그인에 실패했습니다.')
+        setShakeKey((prev) => prev + 1)
+      }
+    } catch (error) {
+      setErrorMessage('에러가 발생했습니다.')
+      setShakeKey((prev) => prev + 1)
+    }
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered>
@@ -149,12 +155,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
             <FormControl>
               <Flex alignItems="center">
                 <Icon as={FaUser} color="gray.500" mr={2} />
-                <Input
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="아이디 입력"
-                />
+                <Input name="username" value={formData.username} onChange={handleChange} placeholder="아이디 입력" />
               </Flex>
             </FormControl>
             <FormControl>
@@ -181,11 +182,38 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, openSignupModa
           </VStack>
         </ModalBody>
         <ModalFooter justifyContent="center">
-          <Text fontSize="sm" color="gray.500">
-            <a href="#" onClick={() => { handleClose(); openFindIdModal(); }}>아이디 찾기</a> |&nbsp;
-            <a href="#" onClick={() => { handleClose(); openFindPasswordModal(); }}>비밀번호 찾기</a> |&nbsp;
-            <a href="#" onClick={() => { handleClose(); openSignupModal(); }}>회원가입</a>
-          </Text>
+          <Flex>
+            <Text
+              onClick={() => {
+                handleClose()
+                openFindIdModal()
+              }}
+              fontSize="sm"
+              color="gray.500"
+            >
+              아이디 찾기&nbsp;|&nbsp;
+            </Text>
+            <Text
+              onClick={() => {
+                handleClose()
+                openFindPasswordModal()
+              }}
+              fontSize="sm"
+              color="gray.500"
+            >
+              비밀번호 찾기&nbsp;|&nbsp;
+            </Text>
+            <Text
+              onClick={() => {
+                handleClose()
+                openSignupModal()
+              }}
+              fontSize="sm"
+              color="gray.500"
+            >
+              회원가입
+            </Text>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>
