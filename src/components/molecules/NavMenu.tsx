@@ -9,7 +9,7 @@ const NavMenu: React.FC = () => {
       <NavLink label="로그인" href="/login" />
       <NavLink label="회원가입" href="/signup" />
     </HStack>
-  );
-};
+  )
+}
 
 export default NavMenu

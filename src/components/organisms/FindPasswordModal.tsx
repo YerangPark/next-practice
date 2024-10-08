@@ -14,15 +14,17 @@ import {
   AlertIcon,
   AlertTitle,
   keyframes,
-} from "@chakra-ui/react";
-import { useState, ChangeEvent } from "react";
-import Button from "../molecules/DefaultButton";
+} from '@chakra-ui/react'
+import { useState, ChangeEvent } from 'react'
+import Button from '../molecules/DefaultButton'
 
 interface FindPasswordModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  openLoginModal: () => void;
+  isOpen: boolean
+  onClose: () => void
+  openLoginModal: () => void
 }
+
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 const shake = keyframes`
   10%, 90% {
@@ -37,63 +39,58 @@ const shake = keyframes`
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
-`;
+`
 
-const FindPasswordModal: React.FC<FindPasswordModalProps> = ({
-  isOpen,
-  onClose,
-  openLoginModal,
-}) => {
-  const [email, setEmail] = useState<string>("");
-  const [username, setUsername] = useState<string>(""); // 아이디 상태 추가
-  const [resultMessage, setResultMessage] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
-  const [shakeKey, setShakeKey] = useState<number>(0);
+const FindPasswordModal: React.FC<FindPasswordModalProps> = ({ isOpen, onClose, openLoginModal }) => {
+  const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('') // 아이디 상태 추가
+  const [resultMessage, setResultMessage] = useState<string | null>(null)
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null)
+  const [shakeKey, setShakeKey] = useState<number>(0)
 
   const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+    setEmail(e.target.value)
+  }
 
   const handleChangeUsername = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value); // 아이디 입력 처리
-  };
+    setUsername(e.target.value) // 아이디 입력 처리
+  }
 
   const handleSubmit = async () => {
     try {
       // 서버에 아이디와 이메일 전송 요청
-      const response = await fetch("http://yrpark.duckdns.org:8080/api/user/find-pw", {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/api/user/find-pw`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, username }), // 아이디와 이메일 전송
-        mode: "cors",
-      });
+        mode: 'cors',
+      })
 
-      const data = await response.json();
       if (response.ok) {
-        setIsSuccess(true);
-        setResultMessage("임시 비밀번호가 이메일로 전송되었습니다.");
-        setShakeKey(prev => prev + 1)
+        setIsSuccess(true)
+        setResultMessage('임시 비밀번호가 이메일로 전송되었습니다.')
+        setShakeKey((prev) => prev + 1)
       } else {
-        setIsSuccess(false);
-        setResultMessage("일치하는 정보가 없습니다.");
-        setShakeKey(prev => prev + 1)
+        setIsSuccess(false)
+        setResultMessage('일치하는 정보가 없습니다.')
+        setShakeKey((prev) => prev + 1)
       }
     } catch (error) {
-      setIsSuccess(false);
-      setResultMessage("일치하는 정보가 없습니다.");
-      setShakeKey(prev => prev + 1)
+      setIsSuccess(false)
+      setResultMessage('일치하는 정보가 없습니다.')
+      setShakeKey((prev) => prev + 1)
     }
-  };
+  }
 
   const handleClose = () => {
-    setEmail("");
-    setUsername(""); // 아이디도 초기화
-    setResultMessage(null);
-    setIsSuccess(null);
-    onClose();
-  };
+    setEmail('')
+    setUsername('') // 아이디도 초기화
+    setResultMessage(null)
+    setIsSuccess(null)
+    onClose()
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered>
@@ -115,20 +112,13 @@ const FindPasswordModal: React.FC<FindPasswordModalProps> = ({
 
             <FormControl>
               <FormLabel>이메일 주소</FormLabel>
-              <Input
-                type="email"
-                placeholder="이메일 입력"
-                value={email}
-                onChange={handleChangeEmail}
-              />
+              <Input type="email" placeholder="이메일 입력" value={email} onChange={handleChangeEmail} />
             </FormControl>
 
             <Button width="100%" onClick={handleSubmit} label="비밀번호 찾기" />
             {resultMessage && (
-              <Alert
-                status={isSuccess ? "success" : "error"}
-                animation={`${shake} 0.5s`}
-                key={shakeKey}>                <AlertIcon />
+              <Alert status={isSuccess ? 'success' : 'error'} animation={`${shake} 0.5s`} key={shakeKey}>
+                <AlertIcon />
                 <AlertTitle>{resultMessage}</AlertTitle>
               </Alert>
             )}
@@ -140,15 +130,15 @@ const FindPasswordModal: React.FC<FindPasswordModalProps> = ({
             theme="gray"
             width="100%"
             onClick={() => {
-              handleClose();
-              openLoginModal();
+              handleClose()
+              openLoginModal()
             }}
             label="로그인 하러 가기"
           />
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}
 
-export default FindPasswordModal;
+export default FindPasswordModal

@@ -7,14 +7,9 @@ interface SubmitButtonProps {
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({ onSubmit }) => {
   return (
-    <Button
-      children="submit"
-      onClick={onSubmit}
-      bg="brand.primary1"
-      color="white"
-      _hover={{ bg: 'brand.primary2' }}
-      disabled={false}
-    />
+    <Button onClick={onSubmit} bg="brand.primary1" color="white" _hover={{ bg: 'brand.primary2' }} isDisabled={false}>
+      submit
+    </Button>
   )
 }
 

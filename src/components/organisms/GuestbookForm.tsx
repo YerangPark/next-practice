@@ -15,16 +15,8 @@ const GuestbookForm: React.FC = () => {
 
   return (
     <div>
-      <TextInputWithLabel
-        label="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <TextInputWithLabel
-        label="Message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      <TextInputWithLabel label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+      <TextInputWithLabel label="Message" value={message} onChange={(e) => setMessage(e.target.value)} />
       <SubmitButton onSubmit={handleSubmit} />
     </div>
   )

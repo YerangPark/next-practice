@@ -24,11 +24,11 @@ const TextInputWithLabel: React.FC<TextInputWithLabelProps> = ({ label, value, o
           borderRadius="xl"
           _focus={{
             boxShadow: '0 0 0 1px brand.text4',
-            borderWidth: '1px'
+            borderWidth: '1px',
           }}
           _hover={{
             boxShadow: '0 0 0 1px brand.text4',
-            borderWidth: '1px'
+            borderWidth: '1px',
           }}
         />
       </label>
