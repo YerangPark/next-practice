@@ -150,19 +150,6 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
     }
   }
 
-  // 폼 데이터를 초기화하는 함수
-  const handleReset = () => {
-    setFormData(initialFormData);
-    setErrorMessage(null);
-  };
-
-  // 모달을 닫을 때 폼을 초기화
-  const handleClose = () => {
-    handleReset();
-    setIsSignupSuccess(false);
-    onClose();
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered>
       <ModalOverlay />

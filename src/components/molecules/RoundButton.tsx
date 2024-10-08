@@ -25,6 +25,7 @@ const RoundButton: React.FC<DefaultButtonProps> = ({
 }) => {
   return (
     <div>
+      <Button
         onClick={onClick}
         color="white"
         bg={color}

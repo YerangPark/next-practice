@@ -41,7 +41,7 @@ const PortfolioFormPage: React.FC<PortfolioFormPageProps> = ({ id }) => {
   const [projects, setProjects] = useState<Project[]>([])
 
   const checkRequiredFields = () => {
-    const missingFields = []
+    const missingFields: string[] = []
 
     // Portfolio 필수 필드 체크
     if (!portfolioName) missingFields.push('포트폴리오 이름')
