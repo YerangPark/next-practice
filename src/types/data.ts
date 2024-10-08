@@ -35,3 +35,4 @@ export interface Project {
   selectedTechStack: number[]
   readmeFile: File | null
 }
+

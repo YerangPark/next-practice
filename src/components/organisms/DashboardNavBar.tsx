@@ -4,6 +4,7 @@
 
 import React from 'react'
 import { Box, Flex, Spacer } from '@chakra-ui/react'
+
 import Logo from '@/components/atoms/Logo'
 import UserButtonWithMenu from '../molecules/UserButtonWithMenu'
 
