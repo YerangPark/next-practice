@@ -41,18 +41,19 @@ const DashboardPage: React.FC = () => {
             console.error('토큰이 만료되었습니다.')
             localStorage.removeItem('token')
             router.push('/')
-          } else if (response.ok) {
-            return response.json()
-          } else {
-            throw new Error('잘못된 응답')
+            return null
           }
+          if (response.ok) {
+            return response.json()
+          }
+          throw new Error('잘못된 응답')
         })
         .then((data) => {
           if (data && data.success) {
-            let fetchedPortfolios = data.data
-            fetchedPortfolios.forEach((portfolio: any) => {
-              if (portfolio.image != null) {
-                portfolio.image = `${apiUrl}/uploads/${portfolio.image}`
+            const fetchedPortfolios = data.data.map((portfolio: any) => {
+              return {
+                ...portfolio,
+                image: portfolio.image != null ? `${apiUrl}/uploads/${portfolio.image}` : portfolio.image,
               }
             })
             setPortfolios(fetchedPortfolios)

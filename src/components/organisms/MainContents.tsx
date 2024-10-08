@@ -52,6 +52,7 @@ const MainContents: React.FC<{ openSignupModal: () => void }> = ({ openSignupMod
         },
       ].map((content, index) => (
         <Box
+          key={content.heading1}
           textAlign="center"
           className="fade-in"
           ref={(el) => {

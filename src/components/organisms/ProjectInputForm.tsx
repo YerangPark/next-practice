@@ -110,8 +110,9 @@ const ProjectInputForm: React.FC<ProjectInputFormProps> = ({ projects, setProjec
       <InformationBox>
         · 프로젝트 경험을 작성해주세요.
         <br />
-        · &quot;자세한 설명&quot;란은 자세히 보기 버튼을 눌렀을 때 보여질 내용입니다. 마크다운 언어로 작성하여
-         첨부해주세요.
+        {/* prettier-ignore */}
+        · &quot;자세한 설명&quot;란은 자세히 보기 버튼을 눌렀을 때 보여질 내용입니다. 마크다운 언어로 작성하여&nbsp;
+        첨부해주세요.
         <br />· * 표시가 된 항목은 필수 입력 항목입니다.
       </InformationBox>
       <Button
@@ -215,8 +216,8 @@ const ProjectInputForm: React.FC<ProjectInputFormProps> = ({ projects, setProjec
           <Box mb={4}>
             <Flex align="center">
               <FormLabel mb="0" width="150px" />
-              {searchQuery ? (
-                searchResults.length > 0 ? (
+              {searchQuery &&
+                (searchResults.length > 0 ? (
                   <List spacing={2} borderWidth="1px" borderRadius="md" p={4} width="100" flex="1">
                     {searchResults.map((skill) => (
                       <ListItem
@@ -232,8 +233,7 @@ const ProjectInputForm: React.FC<ProjectInputFormProps> = ({ projects, setProjec
                   <Box textAlign="center" p={4} borderWidth="1px" borderRadius="md" flex="1">
                     검색 결과가 없습니다.
                   </Box>
-                )
-              ) : null}
+                ))}
             </Flex>
           </Box>
 
