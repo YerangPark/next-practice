@@ -100,11 +100,11 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose, openLoginMod
 
   // 폼 제출 시 처리할 로직
   const handleSubmit = async () => {
-    if (!Object.values(formData).some((value) => value === null || value === '')) {
+    if (Object.values(formData).some((value) => value === null || value === '')) {
       setErrorMessage('입력되지 않은 항목이 있습니다.')
       return
     }
-    if (validatePassword(formData.password)) {
+    if (!validatePassword(formData.password)) {
       setErrorMessage('비밀번호는 8~16자의 영문 대/소문자, 숫자, 특수문자를 포함해야 합니다.')
       return
     }
