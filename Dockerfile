@@ -22,6 +22,8 @@ FROM node:20-alpine
 # 앱 디렉토리 생성 및 설정
 WORKDIR /app
 
+ENV NEXT_PUBLIC_API_BASE_URL=http://yrpark.duckdns.org:8080
+
 # 빌드된 결과물(.next)을 최종 컨테이너에 복사
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
