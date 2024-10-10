@@ -12,7 +12,7 @@ import DeletePortfolioModal from '../organisms/DeletePortfolioModal'
 import FadeNotification from '../organisms/FadeNotification'
 import Button from '../atoms/Button'
 
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://yrpark.duckdns.org:8080'
 
 const DashboardPage: React.FC = () => {
   const router = useRouter()
