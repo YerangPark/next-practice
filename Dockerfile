@@ -13,6 +13,10 @@ RUN npm install --legacy-peer-deps
 # 소스 코드 복사
 COPY . .
 
+# 빌드 수행 (NEXT_PUBLIC_API_BASE_URL을 빌드 시점에 주입)
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+
 # 빌드 수행
 RUN npm run build
 
@@ -21,6 +25,8 @@ FROM node:20-alpine
 
 # 앱 디렉토리 생성 및 설정
 WORKDIR /app
+
+ENV NEXT_PUBLIC_API_BASE_URL=http://yrpark.duckdns.org:8080
 
 # 빌드된 결과물(.next)을 최종 컨테이너에 복사
 COPY --from=builder /app/.next ./.next
