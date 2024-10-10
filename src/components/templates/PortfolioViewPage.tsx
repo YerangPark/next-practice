@@ -10,7 +10,7 @@ import ProjectInformation from '../organisms/ProjectInformation'
 import SkillCategories from '../organisms/SkillCategories'
 import Footer from '../organisms/Footer'
 
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://yrpark.duckdns.org:8080'
 
 const PortfolioViewPage: React.FC<{ id: number }> = ({ id }) => {
   const router = useRouter()
