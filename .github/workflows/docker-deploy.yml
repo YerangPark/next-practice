@@ -69,5 +69,5 @@ jobs:
             docker rm frontend-container || true
 
             docker run -d --name frontend-container \
-              -e NEXT_PUBLIC_API_BASE_URL=http://yrpark.duckdns.org:8080
-              -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest \
+              -e NEXT_PUBLIC_API_BASE_URL=http://yrpark.duckdns.org:8080 \
+              -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/folio-frontend:latest
